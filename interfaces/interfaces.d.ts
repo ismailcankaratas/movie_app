@@ -13,6 +13,17 @@ interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  runtime: number;
+  budget: number;
+  revenue: number;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  production_companies: {
+    id: number;
+    name: string;
+  }[];
 }
 
 interface TrendingMovie {
