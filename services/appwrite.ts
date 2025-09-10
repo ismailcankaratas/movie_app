@@ -2,6 +2,7 @@ import { Client, Databases, ID, Query } from "react-native-appwrite";
 
 const DATABASE_ID = String(process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID);
 const PROJECT_ID = String(process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID);
+const COLLECTION_ID = String(process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID);
 const ENDPOINT = String(process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT);
 
 const client = new Client();
@@ -17,16 +18,16 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
     try {
         const result = await databases.listDocuments(
             DATABASE_ID,
-            "metrics",
+            COLLECTION_ID,
             [Query.equal("searchTerm", query)]
         );
         if (result.documents.length > 0) {
             const existingMovie = result.documents[0];
-            await databases.updateDocument(DATABASE_ID, "metrics", existingMovie.$id, {
+            await databases.updateDocument(DATABASE_ID, COLLECTION_ID, existingMovie.$id, {
                 count: existingMovie.count + 1
             });
         } else {
-            await databases.createDocument(DATABASE_ID, "metrics", ID.unique(), {
+            await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
                 searchTerm: query,
                 movie_id: movie.id,
                 count: 1,
